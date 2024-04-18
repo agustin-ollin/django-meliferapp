@@ -1,0 +1,15 @@
+{% extends 'layouts/base.html' %} {% block content %}
+    <h1>Proyectos</h1>
+    {% for project in object_list %}
+        <article>
+            <a href="{% url 'project_detail' project.id %}">
+                <h1>{{ project.name }}</h1>
+            </a>
+            <a href="{% url 'project_delete' project.id %}">
+                <h3>Eliminar</h3>
+            </a>
+            <a href="{% url 'project_update' project.id %}">
+                <h3>Actualizar</h3>
+            </a>
+        </article>
+    {% endfor %} {% endblock %}

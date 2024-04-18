@@ -1,0 +1,10 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+<form method="post">{% csrf_token %}
+    <p>¿Estás seguro de eliminar la colmena "{{ object.code_beehive }}"?</p>
+    <input type="submit" value="Confirmar" class="btn btn-danger">
+    <a href="{% url 'beehive' %}">
+        <button type="button" class="btn btn-secondary">Regresar</button>
+    </a>
+</form>
+{% endblock %}

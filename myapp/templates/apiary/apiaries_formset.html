@@ -1,0 +1,46 @@
+{% extends 'layouts/base.html' %} {% block content %}
+    <h1>Registro de Apicultores</h1>
+    <div class="card">
+        <div>
+            <form id="form-container" method="POST">{% csrf_token %}
+                {{ form.management_form }}
+                <input type="submit" value="Guardar Apicultores" class="btn btn-success" style="margin: 16px">
+                <a href="{% url 'apiaries' %}">
+                    <button type="button" class="btn btn-secondary">Cancelar</button>
+                </a>
+                {% for fo in form %}
+                    <div class="card" style="padding: 20px">
+                        <div class="bird-form">
+                            {{ fo.as_p }}
+                        </div>
+                    </div>
+                    <br>
+                {% endfor %}
+                <button id="add-form" type="button" class="btn btn-primary" style="margin: 16px">Agregar Apicultor</button>
+                <!--<button id="delete-form" type="button" class="btn btn-danger" style="margin: 16px">Eliminar</button>-->
+            </form>
+        </div>
+    </div>
+    <script>
+        let birdForm = document.querySelectorAll(".bird-form")
+        let container = document.querySelector("#form-container")
+        let addButton = document.querySelector("#add-form")
+        let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
+
+        let formNum = birdForm.length - 1
+        addButton.addEventListener('click', addForm)
+
+        function addForm(e) {
+            e.preventDefault()
+
+            let newForm = birdForm[0].cloneNode(true)
+            let formRegex = RegExp(`form-(\\d){1}-`, 'g')
+
+            formNum++
+            newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
+            container.insertBefore(newForm, addButton)
+
+            totalForms.setAttribute('value', `${formNum + 1}`)
+        }
+    </script>
+{% endblock %}

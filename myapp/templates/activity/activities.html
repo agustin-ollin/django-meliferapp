@@ -1,0 +1,40 @@
+{% extends 'layouts/base.html' %} {% block content %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <h1 class="h2">Actividades</h1>
+        </div>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0"></div>
+    <div class="table-responsive">
+        <a href="{% url 'create_activity' %}">
+            <button type="button" class="btn btn-secondary">Agregar Actividad</button>
+        </a>
+        {% if object_list %}
+            <table class="table table-striped table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">Actividad</th>
+                    <th scope="col">Operaciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for apiary in object_list %}
+                    <tr>
+                        <td>{{ apiary.activity }}</td>
+                        <td>
+                            <a href="{% url 'activity_update' apiary.id %}">
+                                <button type="button" class="btn btn-outline-warning">Editar</button>
+                            </a>
+                            <a href="{% url 'activity_delete' apiary.id %}">
+                                <button type="button" class="btn btn-outline-danger">Eliminar</button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <h1>No hay datos registrados</h1>
+        {% endif %}
+    </div>
+{% endblock %}

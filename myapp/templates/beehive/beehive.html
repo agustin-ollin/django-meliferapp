@@ -1,0 +1,44 @@
+{% extends 'layouts/base.html' %} {% block content %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <h1 class="h2">Colmenas</h1>
+        </div>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0"></div>
+    <div class="table-responsive">
+        <a href="{% url 'create_beehive' %}">
+            <button type="button" class="btn btn-secondary">Agregar Colmena</button>
+        </a>
+        {% if object_list %}
+            <table class="table table-striped table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Temperatura</th>
+                    <th scope="col">Especie</th>
+                    <th scope="col">Operaciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for beehive in object_list %}
+                    <tr>
+                        <td>{{ beehive.code_beehive }}</td>
+                        <td>{{ beehive.temperature }}</td>
+                        <td>{{ beehive.specie }}</td>
+                        <td>
+                            <a href="{% url 'beehive_update' beehive.id %}">
+                                <button type="button" class="btn btn-outline-warning">Editar</button>
+                            </a>
+                            <a href="{% url 'beehive_delete' beehive.id %}">
+                                <button type="button" class="btn btn-outline-danger">Eliminar</button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <h1>No hay datos registrados</h1>
+        {% endif %}
+    </div>
+{% endblock %}

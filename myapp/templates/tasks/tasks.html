@@ -1,0 +1,16 @@
+{% extends 'layouts/base.html' %} {% block content %}
+    <h1>Tareas</h1>
+    {% for task in object_list %}
+        <article>
+            <h2>{% if task.done %} 👍 {% else %} 🕰 {% endif %} {{ task.title }}</h2>
+            <p>{{ task.description }}</p>
+            <p>Project: {{ task.project.name }}</p>
+            <a href="{% url 'task_delete' task.id %}">
+                <h3>Eliminar</h3>
+            </a>
+            <a href="{% url 'task_update' task.id %}">
+                <h3>Actualizar</h3>
+            </a>
+            <button>👍 Done</button>
+        </article>
+    {% endfor %} {% endblock %}

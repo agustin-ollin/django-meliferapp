@@ -1,6 +1,11 @@
 {% extends 'layouts/base.html' %}
 {% block content %}
 <form method="post">{% csrf_token %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <h1 class="h2">Eliminar Actividad</h1>
+        </div>
+    </div>
     <p>¿Estás seguro de eliminar "{{ object.activity }}"?</p>
     <input type="submit" value="Confirmar" class="btn btn-danger">
     <a href="{% url 'activities' %}">

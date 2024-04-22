@@ -1,13 +1,14 @@
 from typing import Any
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
+from django.forms import BaseModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.serializers import serialize
 
 from . import models
 from .models import Project, Task, Apiary, Beekeeper, Beehive, Activity
 from django.shortcuts import get_object_or_404, render, redirect
-from .forms import CreateNewTask, CreateNewProject, CreateApiary, CreateActivity, CreateBeekeeper, CreateBeehive
+from .forms import CreateNewTask, CreateNewProject, CreateApiary, CreateActivity, CreateBeekeeper, CreateBeehive, CreateBeekeeperModelForm, CreateBeehiveModelForm, CreateActivityModelForm
 from django.views.generic import TemplateView, CreateView, ListView, View, DetailView, DeleteView, UpdateView
 
 # Class-based views for porject final
@@ -71,7 +72,7 @@ class BeekeeperView(ListView):
     model = Beekeeper
 
 class CreateBeekeeperView(CreateView):
-    form_class = CreateBeekeeper
+    form_class = CreateBeekeeperModelForm
     model = Beekeeper
     template_name = 'beekeeper/create_beekeeper.html'
 
@@ -88,11 +89,17 @@ class CreateBeekeeperView(CreateView):
                 name=request.POST['name'],
                 email=request.POST['email'],
                 phone=request.POST['phone'],
-                apiary_id=1
+                apiary_id=request.POST['apiary'],
             )
             return redirect("beekeeper")
 
         return render(request, self.template_name, {"form": form})
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['apiaries'] = Apiary.objects.all()
+        return context
+    
 
 class BeekeeperDeleteView(DeleteView):
     template_name = 'beekeeper/delete_beekeeper.html'
@@ -110,7 +117,7 @@ class BeeHiveView(ListView):
     model = Beehive
 
 class CreateBeeHiveView(CreateView):
-    form_class = CreateBeehive
+    form_class = CreateBeehiveModelForm
     model = Beehive
     template_name = 'beehive/create_beehive.html'
 
@@ -127,11 +134,16 @@ class CreateBeeHiveView(CreateView):
                 code_beehive=request.POST['code_beehive'],
                 temperature=request.POST['temperature'],
                 specie=request.POST['specie'],
-                apiary_id=1
+                apiary_id=request.POST['apiary'],
             )
             return redirect("beehive")
 
         return render(request, self.template_name, {"form": form})
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['apiaries'] = Apiary.objects.all()
+        return context
 
 class BeehiveDeleteView(DeleteView):
     template_name = 'beehive/delete_beehive.html'
@@ -150,7 +162,7 @@ class ActivitiesView(ListView):
     model = Activity
 
 class CreateActivityView(CreateView):
-    form_class = CreateActivity
+    form_class = CreateActivityModelForm
     model = Activity
     template_name = 'activity/create_activity.html'
 
@@ -173,6 +185,11 @@ class CreateActivityView(CreateView):
             return redirect("beehive")
 
         return render(request, self.template_name, {"form": form})
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['apiaries'] = Apiary.objects.all()
+        return context
 
 class ActivityDeleteView(DeleteView):
     template_name = 'activity/delete_activity.html'

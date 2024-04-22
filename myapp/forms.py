@@ -1,5 +1,5 @@
 from django import forms
-
+from .models import Apiary, Beekeeper, Beehive, Activity
 
 #Forms examples
 class CreateNewTask(forms.Form):
@@ -24,6 +24,7 @@ class CreateApiary(forms.Form):
 
 class CreateBeekeeper(forms.Form):
     name = forms.CharField(label="Nombre del Apicultor", max_length=200)
+    apiary = forms.CharField(label='Apiario', widget=forms.Select)
     email = forms.CharField(label='Email', max_length=200)
     phone = forms.CharField(label='Telefono', max_length=10)
 
@@ -33,9 +34,35 @@ class CreateBeehive(forms.Form):
     temperature = forms.CharField(label='Temperatura')
     specie = forms.CharField(label='Especie')
 
+
 class CreateActivity(forms.Form):
     activity = forms.CharField(label='Actividad', max_length=200)
     description = forms.CharField(label='Descripcion de la actividad', widget=forms.Textarea)
     #apiary = forms.CharField(label='Apiario')
     #beehive = forms.CharField(label='Colmena')
     #beekeeper = forms.CharField(label='Apicultor')
+
+class CreateBeekeeperModelForm(forms.ModelForm):
+    apiary = forms.ModelChoiceField(queryset=Apiary.objects.all(), label='Apiario')
+    
+    class Meta:
+        model = Beekeeper
+        fields = ['name', 'apiary', 'email', 'phone']
+
+class CreateBeehiveModelForm(forms.ModelForm):
+    apiary = forms.ModelChoiceField(queryset=Apiary.objects.all(), label='Apiario')
+    
+    class Meta:
+        model = Beehive
+        fields = ['code_beehive', 'apiary', 'temperature', 'specie']
+
+class CreateActivityModelForm(forms.ModelForm):
+    apiary = forms.ModelChoiceField(queryset=Apiary.objects.all(), label='Apiario')
+    beehive = forms.ModelChoiceField(queryset=Beehive.objects.all(), label='Colmena')
+    beekeeper = forms.ModelChoiceField(queryset=Beekeeper.objects.all(), label='Apicultor')
+
+    class Meta:
+        model = Activity
+        fields = ['activity', 'description','apiary', 'beehive', 'beekeeper']
+
+

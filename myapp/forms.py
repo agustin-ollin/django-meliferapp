@@ -15,7 +15,7 @@ class CreateNewProject(forms.Form):
 
 #Forms project
 class CreateApiary(forms.Form):
-    name = forms.CharField(label="Nombre del Proyecto", max_length=200)
+    name = forms.CharField(label="Nombre del Apiario", max_length=200)
     latitude = forms.FloatField(label='Latitud')
     longitude = forms.FloatField(label='Longitud')
     country = forms.CharField(label='Estado', max_length=200)

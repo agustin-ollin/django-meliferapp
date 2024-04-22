@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from .formsets import FormsetProject, FormsetBeekeeper
 
 urlpatterns = [
-    path('', views.IndexView.as_view(), name="index"),
+    path('', views.ApiariesView.as_view(), name="index"),
     path('about/', views.AboutView.as_view(), name="about"),
     path('hello/<str:username>', views.HelloView.as_view(), name="hello"),
     path('projects/', views.ProjectsListViews.as_view(), name="projects"),

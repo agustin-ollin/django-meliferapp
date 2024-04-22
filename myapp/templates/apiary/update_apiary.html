@@ -1,6 +1,14 @@
 {% extends 'layouts/base.html' %}
 {% block content %}
-    <h1>Editar Apiario</h1>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <a href="{% url 'apiaries' %}">
+                <button type="button" class="btn" style="margin-right: 6px">
+                <i class=" fa fa-solid fa-arrow-left" style="margin-right: 6px"></i>Volver</button>
+            </a>
+            <h1>Editar Apiario</h1>
+        </div>
+    </div>
     <form method="post">{% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Guardar">

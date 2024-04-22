@@ -1,5 +1,14 @@
 {% extends 'layouts/base.html' %}
 {% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{% url 'beekeeper' %}">
+            <button type="button" class="btn" style="margin-right: 6px">
+            <i class=" fa fa-solid fa-arrow-left" style="margin-right: 6px"></i>Volver</button>
+        </a>
+        <h1>Eliminar Apicultor</h1>
+    </div>
+</div>
 <form method="post">{% csrf_token %}
     <p>¿Estás seguro de eliminar "{{ object.name }}"?</p>
     <input type="submit" value="Confirmar" class="btn btn-danger">

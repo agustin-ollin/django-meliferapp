@@ -1,4 +1,5 @@
-{% extends 'layouts/base.html' %} {% block content %}
+{% extends 'layouts/base.html' %}
+{% block content %}
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <div class="btn-toolbar mb-2 mb-md-0">
             <h1 class="h2">Apiarios</h1>
@@ -11,38 +12,35 @@
         <a href="{% url 'create_apiary' %}">
             <button type="button" class="btn btn-secondary">Agregar Apiario</button>
         </a>
-        <a href="{% url 'create_beekeeper_formset' %}">
-            <button type="button" class="btn btn-success">Registrar Apicultores</button>
-        </a>
         {% if object_list %}
             <table class="table table-striped table-sm">
                 <thead>
-                <tr>
-                    <th scope="col">Apiario</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Ciudad</th>
-                    <th scope="col">Operaciones</th>
-                </tr>
+                    <tr>
+                        <th scope="col">Apiario</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Ciudad</th>
+                        <th scope="col">Operaciones</th>
+                    </tr>
                 </thead>
                 <tbody>
-                {% for apiary in object_list %}
-                    <tr>
-                        <td>{{ apiary.name }}</td>
-                        <td>{{ apiary.country }}</td>
-                        <td>{{ apiary.city }}</td>
-                        <td>
-                            <a href="{% url 'apiary_detail' apiary.id %}">
-                                <button type="button" class="btn btn-outline-info">Ubicación</button>
-                            </a>
-                            <a href="{% url 'apiary_update' apiary.id %}">
-                                <button type="button" class="btn btn-outline-warning">Editar</button>
-                            </a>
-                            <a href="{% url 'apiary_delete' apiary.id %}">
-                                <button type="button" class="btn btn-outline-danger">Eliminar</button>
-                            </a>
-                        </td>
-                    </tr>
-                {% endfor %}
+                    {% for apiary in object_list %}
+                        <tr>
+                            <td>{{ apiary.name }}</td>
+                            <td>{{ apiary.country }}</td>
+                            <td>{{ apiary.city }}</td>
+                            <td>
+                                <a href="{% url 'apiary_detail' apiary.id %}">
+                                    <button type="button" class="btn btn-outline-info">Ubicación</button>
+                                </a>
+                                <a href="{% url 'apiary_update' apiary.id %}">
+                                    <button type="button" class="btn btn-outline-warning">Editar</button>
+                                </a>
+                                <a href="{% url 'apiary_delete' apiary.id %}">
+                                    <button type="button" class="btn btn-outline-danger">Eliminar</button>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         {% else %}
@@ -51,11 +49,17 @@
     </div>
 
     <script>
-
-        var map = L.map('mapw').setView([17.0815171, -96.7749558], 13);
+        var map = L.map('mapw').setView([23.5541269, -102.6205], 5);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
+
+        var apiarios = {{ apiarios_serializados|safe }};
+        for (var i = 0; i < apiarios.length; i++) {
+            var apiario = apiarios[i].fields;
+            L.marker([apiario.latitude, apiario.longitude]).addTo(map)
+                .bindPopup('<b>' + apiario.name + '</b><br>' + apiario.country + ', ' + apiario.city);
+        }
     </script>
 {% endblock %}

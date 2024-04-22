@@ -6,16 +6,19 @@
                 <button type="button" class="btn" style="margin-right: 6px">
                 <i class=" fa fa-solid fa-arrow-left" style="margin-right: 6px"></i>Volver</button>
             </a>
-            <h1 class="h2">{{ apiary.name }}</h1>
+            <h1 class="h2">{{ object.name }}</h1>
         </div>
     </div>
     <div id="map" style="width: 100%; height: 70vh; border-radius: 0.625rem"></div>
     <script>
-        var latitude = {{ apiary.latitude }};
-        var longitude = {{ apiary.longitude }};
+        var latitude = {{ object.latitude }};
+        var longitude = {{ object.longitude }};
+        var name = "{{ object.name }}";
+        var country = "{{ object.country }}";
+        var city = "{{ object.city }}";
 
-        var map = L.map('map').setView([latitude, longitude], 13);
-        var marker = L.marker([latitude, longitude]).bindPopup("Apiario").openPopup().addTo(map);
+        var map = L.map('map').setView([latitude, longitude], 8);
+        var marker = L.marker([latitude, longitude]).bindPopup('<b>' + name + '</b><br>' + country + ', ' + city).openPopup().addTo(map);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'

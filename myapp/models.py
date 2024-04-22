@@ -56,3 +56,9 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title + ' - ' + self.project.name
+
+class TasckActivity(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
+    done = models.BooleanField(default=False)

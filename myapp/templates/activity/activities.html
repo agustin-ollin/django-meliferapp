@@ -22,6 +22,9 @@
                     <tr>
                         <td>{{ apiary.activity }}</td>
                         <td>
+                            <a href="{% url 'crear_tarea' apiary.id%}">
+                                <button type="button" class="btn btn-outline-info">Tareas</button>
+                            </a>
                             <a href="{% url 'activity_update' apiary.id %}">
                                 <button type="button" class="btn btn-outline-warning">Editar</button>
                             </a>

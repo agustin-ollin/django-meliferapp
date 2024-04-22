@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from django.views.generic import TemplateView
-from .formsets import FormsetProject, FormsetBeekeeper
+from .formsets import FormsetProject, FormsetBeekeeper, FormsetTask
 
 urlpatterns = [
     path('', views.ApiariesView.as_view(), name="index"),
@@ -40,4 +40,5 @@ urlpatterns = [
     path('create_activity/', views.CreateActivityView.as_view(), name="create_activity"),
     path('activity/delete/<int:pk>', views.ActivityDeleteView.as_view(), name="activity_delete"),
     path('activity/update/<int:pk>', views.ActivityUpdateView.as_view(), name="activity_update"),
+    path('crear_tarea/<int:pk>', FormsetTask.as_view(), name='crear_tarea')
 ]

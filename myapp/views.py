@@ -1,4 +1,8 @@
+from typing import Any
+from django.db.models.base import Model as Model
+from django.db.models.query import QuerySet
 from django.http import HttpResponse, HttpResponseRedirect
+from django.core.serializers import serialize
 
 from . import models
 from .models import Project, Task, Apiary, Beekeeper, Beehive, Activity
@@ -7,9 +11,18 @@ from .forms import CreateNewTask, CreateNewProject, CreateApiary, CreateActivity
 from django.views.generic import TemplateView, CreateView, ListView, View, DetailView, DeleteView, UpdateView
 
 # Class-based views for porject final
+
+    
 class ApiariesView(ListView):
     template_name = 'apiary/apiary.html'
     model = Apiary
+
+    def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            apiarios = Apiary.objects.all()
+            apiarios_serializados = serialize('json', apiarios)
+            context['apiarios_serializados'] = apiarios_serializados
+            return context
 
 class CreateApiaryView(CreateView):
     form_class = CreateApiary
@@ -51,6 +64,7 @@ class ApiaryUpdateView(UpdateView):
 class ApiaryDetailView(DetailView):
     template_name = 'apiary/detail_apiary.html'
     model = Apiary
+
 
 class BeekeeperView(ListView):
     template_name = 'beekeeper/beekeeper.html'
